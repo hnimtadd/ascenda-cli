@@ -9,27 +9,39 @@ import {
   FlagCheckIn,
   FlagNumReturn,
   FlagValidDuration,
+  FlagInputFile,
+  FlagOutputFile,
 } from "./types.js";
 
-var config = {};
+var config = {
+  InputFile: "./input.json",
+  OutputFile: "./output.json",
+};
 /**
  * Parse argv and get predefined config
  **/
 const parseArgv = () => {
   var argvs = process.argv.slice(2);
   const map = new Parser({
-    flags: [FlagCheckIn, FlagNumReturn, FlagValidDuration, FlagHelp],
+    flags: [
+      FlagCheckIn,
+      FlagNumReturn,
+      FlagValidDuration,
+      FlagHelp,
+      FlagInputFile,
+      FlagOutputFile,
+    ],
   }).Parse(argvs);
 
   map.forEach((value, key) => {
     switch (key) {
       case FlagCheckIn:
         try {
-          date = ParseDate(value);
+          var date = ParseDate(value);
           config.CheckinDate = date;
           return;
         } catch (error) {
-          console.log("checkin date not valid, using default");
+          console.log("checkin date not valid, using default", error);
           return;
         }
       case FlagNumReturn:
@@ -45,6 +57,12 @@ const parseArgv = () => {
           console.log("--flag valid-duration invalid, using default value.");
         }
         config.ValidDayDuration = ValidDayDuration;
+        return;
+      case FlagInputFile:
+        config.InputFile = value;
+        return;
+      case FlagOutputFile:
+        config.OutputFile = value;
         return;
       case FlagHelp:
         console.log(key);
@@ -75,7 +93,7 @@ function main() {
   config = parseArgv();
   try {
     // Read "./input.json" file and process filter on file's data.
-    fs.readFile("./input.json", (err, data) => {
+    fs.readFile(config.InputFile, (err, data) => {
       if (err) {
         throw err;
       }
@@ -88,10 +106,11 @@ function main() {
 
       // Write result to "./output.json" file
       const jsonBody = JSON.stringify({ offers: offers }, null, 2);
-      fs.writeFile("./output.json", jsonBody, (err) => {
+      fs.writeFile(config.OutputFile, jsonBody, (err) => {
         if (err) {
-          console.log(err);
+          exit(err);
         }
+        console.log("success, output writen to", config.OutputFile);
       });
     });
   } catch (err) {
