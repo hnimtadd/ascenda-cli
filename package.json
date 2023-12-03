@@ -1,0 +1,12 @@
+{
+  "name": "ascenda-cli",
+  "version": "1.0.0",
+  "description": "commandline application which respond to find nearby offers for customers.",
+  "exports": "./index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Craftznake",
+  "license": "MIT"
+}
