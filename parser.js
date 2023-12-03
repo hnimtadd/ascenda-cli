@@ -1,5 +1,9 @@
 import { FlagHelp } from "./types.js";
 class Parser {
+  /**
+   *
+   * Constructor constructs a parse class with given flags. These flags will be used later to parse the argvs.
+   **/
   constructor({ flags }) {
     this.flags = [];
     if (flags) {
@@ -7,6 +11,11 @@ class Parser {
     }
   }
 
+  /**
+   * Parse will parse argvs, return map values of given flags and coressponding value
+   *
+   * Returns: Map<types.Flag, string>
+   * */
   Parse(argvs) {
     var map = new Map();
     var flag = "";

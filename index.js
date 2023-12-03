@@ -55,6 +55,9 @@ const parseArgv = () => {
   return config;
 };
 
+/**
+ * Print help and exit
+ **/
 const PrintHelp = () => {
   console.log("Command: ./cli --check-in [date] [Options]");
   console.log(
@@ -70,8 +73,8 @@ const PrintHelp = () => {
 
 function main() {
   config = parseArgv();
-
   try {
+    // Read "./input.json" file and process filter on file's data.
     fs.readFile("./input.json", (err, data) => {
       if (err) {
         throw err;
@@ -83,13 +86,13 @@ function main() {
         config: config,
       });
 
+      // Write result to "./output.json" file
       const jsonBody = JSON.stringify({ offers: offers }, null, 2);
       fs.writeFile("./output.json", jsonBody, (err) => {
         if (err) {
           console.log(err);
         }
       });
-      console.log(jsonBody);
     });
   } catch (err) {
     exit(err);

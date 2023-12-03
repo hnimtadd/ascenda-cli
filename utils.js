@@ -1,3 +1,8 @@
+/**
+ * DateParse parses the date with the "YYYY-mm-dd" layout. If the dateString is invalid, ErrInvalidDate will be thrown.
+ *
+ * Returns: Date
+ **/
 const DateParse = (dateString) => {
   var parts = dateString.split("-");
   const [year, month, day] = [

@@ -12,22 +12,29 @@ const DefaultConfig = {
 };
 
 /**
- * JSONFilter,
+ * JSONFilter
  **/
 class JSONFilter {
   cfg;
-  filters;
+  pre_filters;
   constructor() {
     var cfg = DefaultConfig;
-    this.filters = [this.DefaultCategoryFilter, this.DefaultTimeValidator];
+    this.pre_filters = [this.DefaultCategoryFilter, this.DefaultTimeValidator];
     this.cfg = cfg;
   }
 
+  /**
+   * Filters the data and returns a list of valid offers with predefined filters and the logic of the process.
+   * If filters and process are not passed into the function, this will use prefilters and the DefaultProcess of this class.
+   *
+   * Returns: List(offer)
+   **/
   Filter({ data, prefilters, process, config }) {
     var map = [];
 
+    // process provided params
     if (!prefilters) {
-      prefilters = this.filters;
+      prefilters = this.pre_filters;
     }
 
     if (!process) {
@@ -53,6 +60,11 @@ class JSONFilter {
     }
   }
 
+  /**
+   * DefaultProcessConfig will perform a right-join on $default_config and $custom_config.
+   *
+   * Return: Config
+   **/
   DefaultProcessConfig = (default_config, custom_config) => {
     return {
       CheckinDate: custom_config?.CheckinDate || default_config.CheckinDate,
@@ -63,6 +75,11 @@ class JSONFilter {
     };
   };
 
+  /**
+   * DefaultProcess checks if the offer could be inserted into the map or if an element in the map should be replaced, and then processes the map.
+   *
+   * Return: Processed map
+   **/
   DefaultProcess = (offer, config, map) => {
     var merchant = undefined;
     if (!offer?.merchants) {
@@ -131,6 +148,12 @@ class JSONFilter {
     return map;
   };
 
+  /**
+   * DefaultCategoryFilter filters the offer,
+   * Returns a boolean value indicating whether the offer's category exists in config.CategoryMap.
+   *
+   * Returns: Boolean
+   **/
   DefaultCategoryFilter = (offer, config) => {
     if (!offer?.category) {
       return false;
@@ -143,6 +166,12 @@ class JSONFilter {
     return true;
   };
 
+  /**
+   * DefaultTimeValidator filters the offer.
+   * Returns a boolean value indicating whether the offer is still valid after $config.ValidDayDuration from $config.CheckinDate.
+   *
+   * Returns: Boolean
+   **/
   DefaultTimeValidator = (offer, config) => {
     if (!offer?.valid_to) {
       return false;
