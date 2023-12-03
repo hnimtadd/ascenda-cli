@@ -1,0 +1,32 @@
+{
+  "offers": [
+    {
+      "id": "656b7c6d2f8d253d7c82548f",
+      "title": "sunt ex ex nisi occaecat",
+      "description": "in ipsum pariatur ut irure",
+      "category": 1,
+      "merchants": [
+        {
+          "id": "656b7c6d4fb1d2bd33745812",
+          "name": "",
+          "distance": 0.1
+        }
+      ],
+      "valid_to": "2020-05-01"
+    },
+    {
+      "id": "656b7c6d8d970ae6a98fc35f",
+      "title": "in velit incididunt cupidatat consequat",
+      "description": "commodo et consequat ad tempor",
+      "category": 2,
+      "merchants": [
+        {
+          "id": "656b7c6d3b4a3caf1193280a",
+          "name": "",
+          "distance": 0.1
+        }
+      ],
+      "valid_to": "2020-05-01"
+    }
+  ]
+}
